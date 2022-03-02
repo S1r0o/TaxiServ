@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TaxiServModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="TaxiServModel.sysdiagrams" />
+    <EntitySet Name="Appeal" EntityType="TaxiServModel.Appeal" />
+    <EntitySet Name="Applicant" EntityType="TaxiServModel.Applicant" />
+    <EntitySet Name="Post" EntityType="TaxiServModel.Post" />
+    <EntitySet Name="Problem" EntityType="TaxiServModel.Problem" />
+    <EntitySet Name="User" EntityType="TaxiServModel.User" />
+    <AssociationSet Name="FK_Appeal_Applicant" Association="TaxiServModel.FK_Appeal_Applicant">
+      <End Role="Applicant" EntitySet="Applicant" />
+      <End Role="Appeal" EntitySet="Appeal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appeal_User" Association="TaxiServModel.FK_Appeal_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Appeal" EntitySet="Appeal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Problem_Applicant" Association="TaxiServModel.FK_Problem_Applicant">
+      <End Role="Applicant" EntitySet="Applicant" />
+      <End Role="Problem" EntitySet="Problem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Post" Association="TaxiServModel.FK_User_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Appeal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="type_problem" Type="Int32" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="importance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="user" Type="Int32" />
+    <Property Name="time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="applicant" Type="Int32" />
+    <NavigationProperty Name="Applicant1" Relationship="TaxiServModel.FK_Appeal_Applicant" FromRole="Appeal" ToRole="Applicant" />
+    <NavigationProperty Name="User1" Relationship="TaxiServModel.FK_Appeal_User" FromRole="Appeal" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Applicant">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appeal" Relationship="TaxiServModel.FK_Appeal_Applicant" FromRole="Applicant" ToRole="Appeal" />
+    <NavigationProperty Name="Problem" Relationship="TaxiServModel.FK_Problem_Applicant" FromRole="Applicant" ToRole="Problem" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="TaxiServModel.FK_User_Post" FromRole="Post" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Problem">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="device" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="version" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="applicant" Type="Int32" />
+    <Property Name="title_problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Applicant1" Relationship="TaxiServModel.FK_Problem_Applicant" FromRole="Problem" ToRole="Applicant" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="post" Type="Int32" />
+    <NavigationProperty Name="Appeal" Relationship="TaxiServModel.FK_Appeal_User" FromRole="User" ToRole="Appeal" />
+    <NavigationProperty Name="Post1" Relationship="TaxiServModel.FK_User_Post" FromRole="User" ToRole="Post" />
+  </EntityType>
+  <Association Name="FK_Appeal_Applicant">
+    <End Type="TaxiServModel.Applicant" Role="Applicant" Multiplicity="0..1" />
+    <End Type="TaxiServModel.Appeal" Role="Appeal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Appeal">
+        <PropertyRef Name="applicant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appeal_User">
+    <End Type="TaxiServModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="TaxiServModel.Appeal" Role="Appeal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Appeal">
+        <PropertyRef Name="user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Problem_Applicant">
+    <End Type="TaxiServModel.Applicant" Role="Applicant" Multiplicity="0..1" />
+    <End Type="TaxiServModel.Problem" Role="Problem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Problem">
+        <PropertyRef Name="applicant" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Post">
+    <End Type="TaxiServModel.Post" Role="Post" Multiplicity="0..1" />
+    <End Type="TaxiServModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="post" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
